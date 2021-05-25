@@ -1,0 +1,70 @@
+<h2>Reactive: <small>Dinamicos</small></h2>
+<hr>
+
+<form  (ngSubmit)="guardar()"  [formGroup]="miFormulario" autocomplete="off">
+    <!-- Campo Nombre -->
+    <div class="row mb-3">
+        <label for="nombre" class="col-sm-3 col-form-label">Nombre</label>
+        <div class="col-sm-9">
+            <input class="form-control"
+                   type="text" 
+                   id="nombre" 
+                   formControlName="nombre">
+
+            <span class="text-form text-danger" 
+                  *ngIf="campoValido('nombre')">
+                Debe tener al menos 3 caracteres
+            </span>
+        </div>
+    </div>
+
+    <!-- Agregar Favorito -->
+    <div class="row mb-3">
+        <label for="agregar" class="col-sm-3 col-form-label">Agregar</label>
+        <div class="col-sm-9">
+            <div class="input-group">
+                <input class="form-control"
+                        type="text" 
+                        id="agregar" 
+                        placeholder="Juego favorito"
+                        formControlName="agregar"
+                        >
+                <button class="btn btn-outline-primary" 
+                        (click)="addFavorito()"
+                        (keyup.enter)="addFavorito()"
+                        [disabled]="miFormulario.get('agregar')?.invalid">
+                    Agregar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Juegos Favoritos-->
+    
+   
+            <div class="row mb-3" 
+                 formArrayName="favoritos">
+                <label class="col-sm-3 col-form-label">
+                    Favoritos
+                </label>
+                <div class="col-sm-9"  *ngFor="let favorito of favoritos.controls; let i = index">
+                    <div class="input-group mb-1">
+                        <input class="form-control" 
+                                [formControlName]="i">
+                        <button class="btn btn-outline-danger" (click)="deleteFavorito(i)">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+   
+
+
+    <button class="btn btn-primary float-end">
+        Guardar
+    </button>
+
+</form>
+
+<span>Favoritos Data</span>
+<pre>{{miFormulario.value | json}}</pre> 

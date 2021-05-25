@@ -1,0 +1,133 @@
+<h2>Validaciones Reactivas</h2>
+<hr>
+
+<div class="row">
+    <div class="col">
+
+        <form [formGroup]="registroForm" (ngSubmit)="registrar()" autocomplete="off">
+            <!-- Nombre -->
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">
+                    Nombre
+                </label>
+                <div class="col-sm-9">
+                    <input type="text" 
+                           class="form-control"
+                           placeholder="Nombre del usuario [required..]" 
+                           formControlName="nombre">
+                    
+                        <span class="form-text text-danger"
+                            *ngIf="campoValido('nombre')">
+                            "Entre el texto en formato nombre y apellidos"
+                        </span>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">
+                    Email
+                </label>
+                <div class="col-sm-9">
+                    <input type="email" 
+                           class="form-control" 
+                           placeholder="Email del usuario [required..]"
+                           formControlName="email">
+            
+                    <span class="form-text text-danger"
+                          *ngIf="campoValido('email')">
+                            {{emailErrorMsg}}
+                    </span>
+                </div>
+            </div>
+            
+            <!-- Username -->
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">
+                    Username
+                </label>
+                <div class="col-sm-9">
+                    <input type="text" 
+                           class="form-control" 
+                           placeholder="Username [required..]"
+                           formControlName='username'>
+            
+                    <span class="form-text text-danger" 
+                          *ngIf="campoValido('username')">
+                        "El username no puede ser Strider"
+                    </span>
+                </div>
+            </div>
+
+            <div formGroupName="passwords">
+                <!-- Password -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">
+                        Password
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" placeholder="Password de su cuenta [required..]"
+                            formControlName="password">
+                        <span class="form-text text-danger" 
+                              *ngIf="registroForm.get('passwords')?.invalid 
+                               && campoValido('passwords.password')">
+                            "La contraseña debe de ser mayor de 6 caracteres"
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Password Confirm -->
+                <div class="row mb-3">
+                    <label class="col-sm-3 col-form-label">
+                        Confirmar
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" placeholder="Confirmar el password [required..]"
+                            formControlName="password2">
+                
+                        <span class="form-text text-danger"
+                            *ngIf="registroForm.get('passwords')?.invalid 
+                            && campoValido('passwords.password2')">
+                            "La contraseña tienen que ser iguales"
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary float-end"
+                            type="submit">
+                        Registrar
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<h2>FormValid: {{registroForm.valid}}</h2>
+<h2>FormErros: <span>{{registroForm.errors | json}}</span></h2>
+
+
+<p>Nombre</p>
+<pre>{{registroForm.controls.nombre.errors | json}}</pre>
+
+<p>Email</p>
+<pre>{{registroForm.controls.email.errors | json}}</pre>
+
+<p>Username</p>
+<pre>{{registroForm.controls.username.errors | json}}</pre>
+
+<p>Password Group</p>
+<pre>{{passwords?.errors | json}}</pre>
+
+<p>Password</p>
+<pre>{{password?.errors | json}}</pre>
+
+<p>Password2</p>
+<pre>{{password2?.errors | json}}</pre>
+
